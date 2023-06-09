@@ -1,0 +1,18 @@
+version: '3.4'
+services:      
+  metrics-prometheus:
+    image: ${DOCKER_REGISTRY:-dls}/metrics-prometheus:${TAG:-latest}
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      args:
+        JAR_FILE: metrics-prometheus-0.0.1-SNAPSHOT.jar
+    environment:
+      - opentracing_jaeger_http-sender_url=${Jaeger__Endpoint:-http://jaeger:14268/api/traces}
+      - spring_datasource_url=${Database__ConnectionString:jdbc:sqlserver://mssql:1433;databaseName=Weather;encrypt=false;integratedSecurity=false}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - jaeger
+      - loki
+      - mssql

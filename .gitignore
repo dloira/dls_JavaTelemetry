@@ -1,3 +1,6 @@
+# Ignore prometheus_data subfolders
+**/prometheus_data/*
+
 # Compiled class file
 *.class
 

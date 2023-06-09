@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DlsJavatelemetry DEV Configuration -->
+<configuration scan="false">
+	
+	<property name="AUDIT_LOG_FILE" value="/var/log/metrics-prometheus" />
+	
+	<!-- Console Appender -->
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] %logger{26} - %message%n</pattern>
+		</encoder>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %black(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable
+            </Pattern>
+        </layout>
+	</appender>
+
+	<!-- Audit File Appender -->
+	<appender name="auditFileAppender" class="ch.qos.logback.core.FileAppender">
+		<file>${AUDIT_LOG_FILE}.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] %logger{26} - %message%n</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- Loki Appender -->
+	<appender name="lokiAppender" class="com.github.loki4j.logback.Loki4jAppender">
+	    <http class="com.github.loki4j.logback.ApacheHttpSender">
+       		<!-- <url>http://localhost:3100/loki/api/v1/push</url> -->
+       		<url>http://host.docker.internal:3100/loki/api/v1/push</url>
+	    </http>
+	    <format>
+	        <label>
+	            <pattern>app=my-app,host=${HOSTNAME},level=%level</pattern>
+	        </label>
+	        <message>
+	            <pattern>l=%level h=${HOSTNAME} c=%logger{20} t=%thread | %msg %ex</pattern>
+	        </message>
+	        <sortByTime>true</sortByTime>
+	    </format>
+	</appender>
+
+	<logger name="dls.telemetry" level="INFO" />
+
+	<!-- Root Logger -->
+	<root level="INFO">
+		<appender-ref ref="consoleAppender" />
+		<appender-ref ref="lokiAppender" />
+<!--
+ 		<appender-ref ref="auditFileAppender" />
+-->	
+	</root>
+
+</configuration>
