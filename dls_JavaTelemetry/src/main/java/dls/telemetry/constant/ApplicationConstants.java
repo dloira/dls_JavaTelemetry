@@ -14,5 +14,7 @@ public final class ApplicationConstants {
 	public static final String HTTP_EVENT_PROCESSING_TIME_METRIC_DESCRIPTION = "The elapsed time to process an http event on milliseconds.";
 	public static final String HTTP_EVENT_PROCESSING_COUNT_METRIC_NAME = "dls_springboot_telemetry_http_event_processed_count";
 	public static final String HTTP_EVENT_PROCESSING_COUNT_METRIC_DESCRIPTION = "The number of http event count processed.";
+	public static final String HTTP_EVENT_PROCESSING_EXCEPTIONS_METRIC_NAME = "dls_springboot_telemetry_http_event_processing_exceptions";
+	public static final String HTTP_EVENT_PROCESSING_EXCEPTIONS_METRIC_DESCRIPTION = "The number of exceptions processing http events.";
 
 }

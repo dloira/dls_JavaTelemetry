@@ -1,4 +1,4 @@
-package dls.telemetry;
+package dls.telemetry.features;
 
 import java.util.List;
 
