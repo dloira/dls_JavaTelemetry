@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +20,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import dls.telemetry.constant.ApplicationConstants;
 import dls.telemetry.diagnostics.ApplicationDiagnostics;
-import dls.telemetry.diagnostics.ApplicationLogging;
 import dls.telemetry.features.dto.AddressApiModel;
 import dls.telemetry.features.get.GetWeatherForecastResponse;
 
@@ -32,8 +29,6 @@ import dls.telemetry.features.get.GetWeatherForecastResponse;
 @Tag(name = "WeatherForecast", description = "Endpoints for managing weather forecast.")
 public class WeatherForecastController {
 
-//	private static final Logger LOGGER = LoggerFactory.getLogger(WeatherForecastController.class);
-	
 	private static String[] Summaries = new String[]{
 		    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 		};
@@ -58,8 +53,6 @@ public class WeatherForecastController {
             @ApiResponse(responseCode = "404", description = "DlsJavatelemetry not found", content = @Content) })
     @GetMapping("/")
     public List<GetWeatherForecastResponse> get(){
-		
-//		LOGGER.info(ApplicationLogging.HTTP_EVENT_RECEIVER);
 		
 		_diagnostics.EventReceived();
 		
