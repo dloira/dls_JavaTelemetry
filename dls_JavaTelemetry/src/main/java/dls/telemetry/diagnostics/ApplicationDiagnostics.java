@@ -19,14 +19,14 @@ public class ApplicationDiagnostics {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationDiagnostics.class);
 	
-	private MeterRegistry meterRegistry;
+	private MeterRegistry _meterRegistry;
 	
 	private Counter _httpEventProcessingExceptions;
 	private Counter _httpEventProcessingCount;
 	private Timer _httpEventProcessingTime;
 	
 	public ApplicationDiagnostics(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
+        this._meterRegistry = meterRegistry;
         
         initializeCounters();
     }
@@ -34,11 +34,11 @@ public class ApplicationDiagnostics {
 	private void initializeCounters() {
 		_httpEventProcessingCount = Counter.builder(ApplicationConstants.HTTP_EVENT_PROCESSING_COUNT_METRIC_NAME)
         .description(ApplicationConstants.HTTP_EVENT_PROCESSING_COUNT_METRIC_DESCRIPTION)
-        .register(meterRegistry);
+        .register(_meterRegistry);
 		
 		_httpEventProcessingExceptions = Counter.builder(ApplicationConstants.HTTP_EVENT_PROCESSING_COUNT_METRIC_NAME)
 		        .description(ApplicationConstants.HTTP_EVENT_PROCESSING_COUNT_METRIC_DESCRIPTION)
-		        .register(meterRegistry);
+		        .register(_meterRegistry);
 		
 		_httpEventProcessingTime = Timer.builder(ApplicationConstants.HTTP_EVENT_PROCESSING_TIME_METRIC_NAME)
 				.description(ApplicationConstants.HTTP_EVENT_PROCESSING_TIME_METRIC_DESCRIPTION)
@@ -47,7 +47,7 @@ public class ApplicationDiagnostics {
 				.serviceLevelObjectives(Duration.ofMillis(100))
 				.minimumExpectedValue(Duration.ofMillis(1))
 				.maximumExpectedValue(Duration.ofSeconds(10))
-				.register(meterRegistry);
+				.register(_meterRegistry);
 	}
 	
 	public void EventProcessingFailed(Exception error)
